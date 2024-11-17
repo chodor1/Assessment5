@@ -16,4 +16,13 @@ contract Mytoken is ERC20, Ownable {
     function burn(uint256 amount) public {
         _burn(_msgSender(), amount);
     }
+
+    // Explicitly overriding the transfer function
+    function transfer(address to, uint256 amount) public override returns (bool) {
+        require(to != address(0), "Transfer to the zero address is not allowed");
+        require(amount > 0, "Transfer amount must be greater than zero");
+
+        // Call the parent contract's transfer function
+        return super.transfer(to, amount);
+    }
 }
